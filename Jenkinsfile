@@ -10,7 +10,7 @@ pipeline {
     stages {
        stage('Installer Newman') {
             steps {
-                sh 'npm install newman'  // Installer Newman localement
+                sh 'newman -version'  // Installer Newman localement
             }
         }
 
