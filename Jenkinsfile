@@ -4,13 +4,13 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Vérifier si Newman est bien installé et fonctionnel
-                sh 'newman --version'
+                bat 'newman --version'
             }
         }
         stage('Run Newman tests') {
             steps {
                 // Exécuter les tests API avec Newman et générer des rapports au format CLI, JSON et JUnit
-                sh '''
+                bat '''
                 newman run testAvecToken.postman_collection.json \
                  --reporters cli,json,junit \
                 --reporter-json-export /etc/newman/report.json \
