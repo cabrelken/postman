@@ -1,16 +1,21 @@
 pipeline {
-    agent any
+    agent any {
+        docker {
+            image 'postman/newman'  // Utilise l'image Docker officielle de Newman
+            args '-v $WORKSPACE:/newman'  // Monte le répertoire de travail Jenkins dans le conteneur Docker
+        }
+    }
     stages {
         stage('Install dependencies') {
             steps {
                 // Vérifier si Newman est bien installé et fonctionnel
-                bat 'newman --version'
+                sh 'newman --version'
             }
         }
         stage('Run Newman tests') {
             steps {
                 // Exécuter les tests API avec Newman et générer des rapports au format CLI, JSON et JUnit
-                bat '''
+                sh '''
                 newman run testAvecToken.postman_collection.json \
                  --reporters cli,json,junit \
                 --reporter-json-export /etc/newman/report.json \
