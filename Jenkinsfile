@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:18'  // Utilisation de l'image Node.js pour installer Newman
+            image 'postman/newman'  // Utilisation de l'image Node.js pour installer Newman
 
         }
     }
