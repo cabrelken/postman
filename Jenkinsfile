@@ -1,8 +1,8 @@
 pipeline {
     agent {
         docker {
-            image 'postman/newman'  // Utilisation de l'image Node.js pour installer Newman
-
+            image 'postman/newman'  // Using the official Newman Docker image
+            args '-v $WORKSPACE:/newman'  // Mount Jenkins workspace to a writable directory
         }
     }
     
