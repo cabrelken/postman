@@ -1,35 +1,42 @@
 pipeline {
     agent {
         docker {
-            image 'postman/newman:alpine'  // Using the official Newman Docker image
-            args '-v $WORKSPACE:/newman'  // Mount Jenkins workspace to a writable directory
+            image 'postman/newman'  // Utilise l'image Docker officielle de Newman
+            args '-v $WORKSPACE:/newman'  // Monte le répertoire de travail Jenkins dans le conteneur Docker
         }
     }
-    
-    
     stages {
-       stage('Installer Newman') {
+        stage('Install dependencies') {
             steps {
-                sh 'newman -version'  // Installer Newman localement
+                // Vérifier si Newman est bien installé et fonctionnel
+                sh 'newman --version'
             }
         }
-
-        stage('Exécuter les collections Postman avec Newman') {
+        stage('Run Newman tests') {
             steps {
-                // Utiliser le chemin local vers l'exécutable Newman
-                sh 'newman run testAvecToken.postman_collection.json -e port8010.postman_environment.json'
+                // Exécuter les tests API avec Newman et générer des rapports au format CLI, JSON et JUnit
+                sh '''
+                newman run testAvecToken.postman_collection.json \
+                 --reporters cli,json,junit \
+                --reporter-json-export /etc/newman/report.json \
+                --reporter-junit-export /etc/newman/report.xml
+                '''
             }
         }
-
-        
     }
-
     post {
         always {
-            echo 'Affichage des résultats des tests'
+            // Archiver les rapports générés pour les consulter après l'exécution du pipeline
+            archiveArtifacts artifacts: 'report.json, report.xml'
+        }
+        success {
+            echo 'API Tests Passed!'  // Affiche un message de succès si les tests réussissent
+        }
+        failure {
+            echo 'API Tests Failed. Check the reports for details.'  // Message en cas d'échec
         }
     }
-}
+} 
 
 
 //C:/laragon/www/postman/newman/Produits.postman_collection.json
