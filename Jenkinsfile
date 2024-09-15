@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'postman/newman'  // Utilise l'image Docker officielle de Newman
-            args '-v $WORKSPACE:/newman'  // Monte le répertoire de travail Jenkins dans le conteneur Docker
-        }
-    }
+  
     stages {
         stage('Install dependencies') {
             steps {
