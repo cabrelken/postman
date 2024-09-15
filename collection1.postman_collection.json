@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "9e15aa97-6929-4dc8-ac45-f23050e94362",
+		"name": "collection1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10035890",
+		"_collection_link": "https://warped-shuttle-252676.postman.co/workspace/logwireTPtest~8817ba1e-40a6-4f0e-88b4-f7270259f317/collection/10035890-9e15aa97-6929-4dc8-ac45-f23050e94362?action=share&source=collection_link&creator=10035890"
+	},
+	"item": [
+		{
+			"name": "test1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let test1_ok = true;\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    if(pm.response.code!==201){\r",
+							"        test1_ok=false;\r",
+							"    }\r",
+							"    pm.response.to.have.status(201); \r",
+							"});\r",
+							"\r",
+							"pm.test(\"verfication valeurs\",()=>{\r",
+							"    let rep = pm.response.json();\r",
+							"    if(rep.name !==\"lotfi2\"){\r",
+							"        test1_ok=false;\r",
+							"    }\r",
+							"    pm.expect(rep.name).to.be.eql('lotfi2');\r",
+							"   \r",
+							"});\r",
+							"console.log(test1_ok);\r",
+							"pm.environment.set(\"test1_ok\", test1_ok);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"lotfi\",\r\n    \"job\": \"leader\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let test2_ok = true;\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    if(pm.response.code!==200){\r",
+							"       test2_ok = false;\r",
+							"    }\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"});\r",
+							"pm.environment.set(\"test2_ok\", test2_ok);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

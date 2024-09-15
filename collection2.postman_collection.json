@@ -1,0 +1,97 @@
+{
+	"info": {
+		"_postman_id": "aa5b6812-382a-475e-b546-7974eb62251f",
+		"name": "collection2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10035890",
+		"_collection_link": "https://warped-shuttle-252676.postman.co/workspace/logwireTPtest~8817ba1e-40a6-4f0e-88b4-f7270259f317/collection/10035890-aa5b6812-382a-475e-b546-7974eb62251f?action=share&source=collection_link&creator=10035890"
+	},
+	"item": [
+		{
+			"name": "test3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let test1_ok = pm.environment.get(\"test1_ok\");\r",
+							"let test2_ok = pm.environment.get(\"test2_ok\");\r",
+							"((test1_ok && test2_ok)?pm.test:pm.test.skip)(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "get: https://reqres.in/api/users/2\n",
+					"protocol": "get: https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2\n"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "get: https://reqres.in/api/users/2",
+					"protocol": "get: https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

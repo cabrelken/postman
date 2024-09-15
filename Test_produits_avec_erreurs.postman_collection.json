@@ -1,0 +1,227 @@
+{
+	"info": {
+		"_postman_id": "6947e72f-42e8-432b-bd61-d2beb1b6db93",
+		"name": "Test produits avec erreurs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10035890",
+		"_collection_link": "https://warped-shuttle-252676.postman.co/workspace/logwireTPtest~8817ba1e-40a6-4f0e-88b4-f7270259f317/collection/10035890-6947e72f-42e8-432b-bd61-d2beb1b6db93?action=share&source=collection_link&creator=10035890"
+	},
+	"item": [
+		{
+			"name": "produit avec donees invalides",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Statut de la réponse est 422\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"La réponse contient un message d'erreur\", function () {\r",
+							"    let erreur = pm.response.json();\r",
+							"      pm.expect(erreur).to.have.property(\"detail\");\r",
+							"    pm.expect(erreur.detail[0]).to.have.property(\"msg\");\r",
+							"    pm.expect(erreur.detail[0].msg).to.eql(\"Input should be a valid string\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": 12345,\r\n    \"description\": true\r\n    \r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produit avec champs obligatoires manquants",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Statut de la réponse est 422\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"La réponse contient un message d'erreur\", function () {\r",
+							"    let erreur = pm.response.json();\r",
+							"     pm.expect(erreur).to.have.property(\"detail\");\r",
+							"    pm.expect(erreur.detail[0]).to.have.property(\"msg\");\r",
+							"    pm.expect(erreur.detail[0].msg).to.eql(\"Field required\");\r",
+							"    pm.expect(erreur.detail[0].loc).to.include(\"title\");\r",
+							"\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Produit sans titre\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modif produit donnees invalides",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Statut de la réponse est 422\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"La réponse contient un message d'erreur\", function () {\r",
+							"    let erreur = pm.response.json();\r",
+							"    pm.expect(erreur).to.have.property(\"detail\");\r",
+							"    pm.expect(erreur.detail[0]).to.have.property(\"msg\");\r",
+							"    pm.expect(erreur.detail[0].msg).to.include(\"Input should be a valid string\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": 12345,\r\n    \"description\": true}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items/88",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items",
+						"88"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modif champs obligatoires manquants",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Statut de la réponse est 422\", function () {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"La réponse contient un message d'erreur\", function () {\r",
+							"    let erreur = pm.response.json();\r",
+							"     pm.expect(erreur).to.have.property(\"detail\");\r",
+							"    pm.expect(erreur.detail[0]).to.have.property(\"msg\");\r",
+							"    pm.expect(erreur.detail[0].msg).to.eql(\"Field required\");\r",
+							"    pm.expect(erreur.detail[0].loc).to.include(\"title\");\r",
+							"\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Produit sans titre\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items/88",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items",
+						"88"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

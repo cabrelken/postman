@@ -1,0 +1,8 @@
+{
+    "username": "Cleo.Parisian23",
+    "password1": "admin123",
+    "password2": "admin123",
+    "email": "vctken@gmail.com",
+    "job": "Developer",
+    "about_me": "I am a developer."
+}

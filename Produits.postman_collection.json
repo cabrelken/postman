@@ -1,0 +1,353 @@
+{
+	"info": {
+		"_postman_id": "1f2106c8-4bcf-4340-a36c-181b2243d3ff",
+		"name": "Tests Produits",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10035890",
+		"_collection_link": "https://warped-shuttle-252676.postman.co/workspace/logwireTPtest~8817ba1e-40a6-4f0e-88b4-f7270259f317/collection/10035890-1f2106c8-4bcf-4340-a36c-181b2243d3ff?action=share&source=collection_link&creator=10035890"
+	},
+	"item": [
+		{
+			"name": "api correcte",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"verification de du contenu\", function(){\r",
+							"        let rep = pm.response.json();\r",
+							"\r",
+							"        pm.expect(rep).to.have.property(\"message\", \"bienvenue sur notre site\");\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ajouter un produit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier le produit ajouté\", function () {\r",
+							"    let rep = pm.response.json();\r",
+							"    pm.expect(rep.title).to.eql(\"telephone neuf\"); \r",
+							"    pm.expect(rep.description).to.eql(\"iphone 15\"); \r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"telephone neuf\",\r\n  \"description\": \"iphone 15\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "afficher les produits limit 10",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier que la réponse contient 10 produits\", function () {\r",
+							"    let produits = pm.response.json();\r",
+							"    pm.expect(produits).to.be.an('array');\r",
+							"    pm.expect(produits.length).to.eql(10);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "recuperer un produit par id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier que le produit est récupéré par ID\", function () {\r",
+							"    let produit = pm.response.json();\r",
+							"    pm.expect(produit).to.have.property(\"id\", 13); \r",
+							"    pm.expect(produit).to.have.property(\"title\", \"Motorola2\"); \r",
+							"    pm.expect(produit).to.have.property(\"description\", \"mon deuxieme tel\"); \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/items/13",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items",
+						"13"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifier la valeur dun produit avec PUT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier que le titre du produit a été mis à jour\", function () {\r",
+							"    let produit = pm.response.json();\r",
+							"    pm.expect(produit).to.have.property(\"id\", 433); \r",
+							"    pm.expect(produit).to.have.property(\"title\", \"nouveau titre\"); \r",
+							"    pm.expect(produit).to.have.property(\"description\", \"iphone 15\"); \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"nouveau telephone\",\r\n  \"description\": \"iphone 15\",\r\n  \"id\": 433\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items/433",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items",
+						"433"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "modifier la valeur dun produit avec PATCH",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier que le titre du produit a été mis à jour\", function () {\r",
+							"    let produit = pm.response.json();\r",
+							"    pm.expect(produit).to.have.property(\"id\", 433); \r",
+							"    pm.expect(produit).to.have.property(\"title\", \"nouveau telephone\"); \r",
+							"    pm.expect(produit).to.have.property(\"description\", \"nouveau iphone 15+\"); \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \r\n  \"description\": \"nouveau iphone 15+\"\r\n \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items/433",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items",
+						"433"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "supprimer un produit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier que le produit a été supprimé avec succès\", function () {\r",
+							"    pm.environment.set(\"productId\", 40);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier que le produit a bien été supprimé\", function () {\r",
+							"    pm.expect(pm.response.status).to.eql(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/items/10",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items",
+						"10"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://192.168.1.127:8000"
+		}
+	]
+}

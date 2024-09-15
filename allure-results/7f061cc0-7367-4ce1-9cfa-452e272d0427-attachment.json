@@ -1,0 +1,12 @@
+{
+    "Date": "Tue, 13 Aug 2024 11:16:13 GMT",
+    "Server": "WSGIServer/0.2 CPython/3.11.2",
+    "Content-Type": "application/json",
+    "Vary": "Accept",
+    "Allow": "POST, OPTIONS",
+    "X-Frame-Options": "DENY",
+    "Content-Length": "50",
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "same-origin",
+    "Cross-Origin-Opener-Policy": "same-origin"
+}
