@@ -2,18 +2,13 @@ pipeline {
     agent   {
         docker {
             image  'node:18'
-        }
+            args '--entrypoint=""'        }
     }
     stages {
-        stage('Install newman') {
+        stage('Install dependencies') {
             steps {
-                sh 'npm install -g newman'
-            }
-        }
-
-         stage('Install dependencies') {
-            steps {
-                sh 'newman -version'
+                // Vérifier si Newman est bien installé et fonctionnel
+                sh 'newman --version'
             }
         }
         stage('Run Newman tests') {
