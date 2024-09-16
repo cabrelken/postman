@@ -1,7 +1,7 @@
 pipeline {
     agent   {
         docker {
-            image  'node:18'
+            image 'postman/newman'  // Utilise l'image Docker officielle de Newman
             args '--entrypoint=""'        }
     }
     stages {
