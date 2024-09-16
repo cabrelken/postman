@@ -26,6 +26,7 @@ pipeline {
     }
     post {
         always {
+             junit 'newman-report.xml'
             // Archiver les rapports générés pour les consulter après l'exécution du pipeline
             archiveArtifacts artifacts: 'report.json, report.xml'
         }
