@@ -5,9 +5,9 @@ pipeline {
         }
     }
     stages {
-        stage('Install dependencies') {
+        stage('Install newman') {
             steps {
-                sh 'npm install newman'
+                sh 'npm install -g newman'
             }
         }
 
