@@ -1,34 +1,39 @@
 pipeline {
-    agent   {
+    agent {
         docker {
             image 'postman/newman'  // Utilise l'image Docker officielle de Newman
-            args '--entrypoint=""'
+            args '-v $WORKSPACE:/etc/newman --entrypoint=""'  // Monte le répertoire Jenkins dans le conteneur Docker
         }
     }
+
     stages {
-        stage('Install dependencies') {
+        stage('Check Newman Installation') {
             steps {
-                // Vérifier si Newman est bien installé et fonctionnel
+                // Vérifier que Newman est bien installé et fonctionnel
                 sh 'newman --version'
             }
         }
+
         stage('Run Newman tests') {
             steps {
-                // Exécuter les tests API avec Newman et générer des rapports au format CLI, JSON et JUnit
+                // Exécuter les tests API avec Newman et générer des rapports
                 sh '''
-                newman run testAvecToken.postman_collection.json \
+                newman run /etc/newman/testAvecToken.postman_collection.json \
                  --reporters cli,json,junit \
-                --reporter-json-export /etc/newman/report.json \
-                --reporter-junit-export /etc/newman/report.xml
+                --reporter-json-export $WORKSPACE/report.json \
+                --reporter-junit-export $WORKSPACE/report.xml
                 '''
+                // Vérifier que les rapports sont bien générés
+                sh 'ls -l $WORKSPACE'
             }
         }
     }
+
     post {
         always {
-             junit 'newman-report.xml'
-            // Archiver les rapports générés pour les consulter après l'exécution du pipeline
-            archiveArtifacts artifacts: 'report.json, report.xml'
+            // Archiver les rapports générés
+            junit 'report.xml'  // Archive le rapport JUnit
+            archiveArtifacts artifacts: 'report.json, report.xml'  // Archive les fichiers JSON et XML
         }
         success {
             echo 'API Tests Passed!'  // Affiche un message de succès si les tests réussissent
@@ -37,8 +42,4 @@ pipeline {
             echo 'API Tests Failed. Check the reports for details.'  // Message en cas d'échec
         }
     }
-} 
-
-
-//C:/laragon/www/postman/newman/Produits.postman_collection.json
-//C:\laragon\www\postman\Produits.postman_collection.json
+}
