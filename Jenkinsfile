@@ -2,14 +2,18 @@ pipeline {
     agent   {
         docker {
             image  'node:18'
-            //args '-v $WORKSPACE:/newman'  // Monte le répertoire de travail Jenkins dans le conteneur Docker
         }
     }
     stages {
         stage('Install dependencies') {
             steps {
-                // Vérifier si Newman est bien installé et fonctionnel
                 sh 'npm install newman'
+            }
+        }
+
+         stage('Install dependencies') {
+            steps {
+                sh 'newman -version'
             }
         }
         stage('Run Newman tests') {
